@@ -8,17 +8,19 @@ module.exports.CreateUsers = async (req, res) => {
 
         const data = req.body;
         const { name, email, password } = data//destructuring
-
-
+        req.body.role = 'Customer'
 
         if (Object.keys(data).length == 0) return res.status(400).send({ status: false, msg: "Body Empty" })
+        if (req.body.role=='Admin' ) return res.status(400).send({ status: false, msg: "You are not Auth" })
         if (!name || name.trim().length == 0) return res.status(400).send({ status: false, msg: "Insert the value in Name and Provided Name" })
         if (!ValidName(name)) return res.status(400).send({ status: false, msg: "Inavlid Name" })
         if (!email || email.trim().length == 0) return res.status(400).send({ status: false, msg: "Insert the value in email and Provided email" })
         if (!Validemail(email)) return res.status(400).send({ status: false, msg: "Inavlid email" })
         if (!password || password.trim().length == 0) return res.status(400).send({ status: false, msg: "Insert the value in Password and Provided Password" })
         if (!Validpass(password)) return res.status(400).send({ status: false, msg: "Inavlid password" })
-
+            
+        
+            
         const checkemail = await userModel.findOne({ email: email })
         if (checkemail) return res.status(200).send({ status: false, msg: "User Already Present" })
 
