@@ -11,7 +11,7 @@ module.exports.CreateUsers = async (req, res) => {
         req.body.role = 'Customer'
 
         if (Object.keys(data).length == 0) return res.status(400).send({ status: false, msg: "Body Empty" })
-        if (req.body.role=='Admin' ) return res.status(400).send({ status: false, msg: "You are not Auth" })
+        if (req.body.role=='Admin' || req.body.role=='Shopkeeper') return res.status(400).send({ status: false, msg: "You are not Auth for in this role" })
         if (!name || name.trim().length == 0) return res.status(400).send({ status: false, msg: "Insert the value in Name and Provided Name" })
         if (!ValidName(name)) return res.status(400).send({ status: false, msg: "Inavlid Name" })
         if (!email || email.trim().length == 0) return res.status(400).send({ status: false, msg: "Insert the value in email and Provided email" })
